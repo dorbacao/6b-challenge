@@ -388,5 +388,5 @@ FodyWeavers.xsd
 .idea/
 *.sln.iml
 *.cache
-back-end/obj/Debug/*
-back-end/bin/Debug/*
+*/obj/Debug/*
+*/bin/Debug/*
