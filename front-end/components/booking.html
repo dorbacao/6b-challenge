@@ -1,7 +1,7 @@
 <html>
   <meta charset="UTF-8" />
   <body>
-    <h1>Books</h1>
+    <h1>Booking</h1>
     <button type="button" id="signoutAnchor">Sign Out</button>
     <div id="divMessageBox" class="hide"></div>
     <div id="containerTable"></div>
@@ -130,7 +130,7 @@
         getTextFromEnum(vehicleSize, element.vehicleSize),
         element.contactNumber,
         element.emailAddress,
-        element.approved,
+        element.approved ? 'Yes' : 'No',
         buttonApproveOrCancel,
         buttonDelete,
       ]);

@@ -88,6 +88,7 @@ public static class SwaggerOptionsExtentions
         services.AddControllers(options =>
         {
             options.Filters.Add(new AuthorizeFilter(policy));
+            options.Filters.Add(new UnhandledExceptionFilter());
 
         }).AddNewtonsoftJson(opt =>
         {

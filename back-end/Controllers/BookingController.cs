@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace B6Challenge.Api.Controllers
@@ -46,6 +47,8 @@ namespace B6Challenge.Api.Controllers
         [Route("{bookingId}/approved")]
         public async Task<IActionResult> ApproveBookingAsync(Guid bookingId)
         {
+            //Comment: remove comment above to test UnhandledException Filter
+            //throw new Exception("Ops... its fail");
             var candidateBooking = await dataContext.Set<Booking>().FirstOrDefaultAsync(a => a.Id == bookingId);
 
             if (candidateBooking == null)
