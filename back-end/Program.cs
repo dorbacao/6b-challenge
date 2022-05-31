@@ -2,7 +2,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.ConfigureCors();
+builder.Services.AddHttpContextAccessor();
+builder.Services.ConfigureControllers();
+builder.Services.ConfigureSwagger();
+builder.ConfigureServices();
 
 var app = builder.Build();
 
@@ -10,6 +14,21 @@ var app = builder.Build();
 
 app.UseAuthorization();
 
+
+// global cors policy
+app.UseCors(x => x
+    .SetIsOriginAllowed(origin => true)
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
+
+
 app.MapControllers();
+
+app.UseSwagger();
+
+app.MapSwagger();
+
+app.UseSwaggerUI();
 
 app.Run();
