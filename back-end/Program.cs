@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureCors();
 builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureControllers();
+builder.Services.ConfigureAuthentication();
 builder.Services.ConfigureSwagger();
 builder.ConfigureServices();
 

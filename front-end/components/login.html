@@ -1,0 +1,128 @@
+<div>
+  <div class="container">
+    <label for="uname"><b>Email</b></label>
+    <input
+      type="text"
+      id="txtLogin"
+      placeholder="Enter Email"
+      name="email"
+      required
+    />
+
+    <label for="psw"><b>Password</b></label>
+    <input
+      id="txtPassword"
+      type="password"
+      placeholder="Enter Password"
+      name="psw"
+      required
+    />
+
+    <button id="btnLogin" class="button" type="button">Login</button>
+  </div>
+
+  <ul>
+    <li>
+      angelo@6bdigital.com (123456789)
+    </li>
+    <li>
+      jack@javeloper.co.uk (123456789)
+    </li>
+    <li>
+      fabricedomingues7@gmail.com (123456789)
+    </li>
+    <li>
+      josh@joshwalshaw.com (123456789)
+    </li>
+    <li>
+      josh@joshwalshaw.com (123456789)
+    </li>
+  </ul>
+</div>
+<style>
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+</style>
+<script type="module">
+  async function postAsync(object) {
+    return new Promise(function (resolve, reject) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://localhost:5256/api/identity/user/token");
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onload = (e) => {
+        resolve(e);
+      };
+      xhr.onerror = reject;
+      xhr.send(JSON.stringify(object));
+    });
+  }
+
+  async function onLogin() {
+    var login = document.getElementById("txtLogin").value;
+    var password = document.getElementById("txtPassword").value;
+
+    var loginCommand = { login, password };
+
+    var result = await postAsync(loginCommand);
+
+    if (result.target.status == 200) {
+      window.location = "home.html";
+    }else{
+      alert('fail auth');
+    }
+  }
+
+  document.getElementById("btnLogin").addEventListener("click", onLogin);
+</script>
+
+<style>
+  .justify-50-centered {
+    width: 50%;
+    justify-content: center;
+  }
+  .justify-centered {
+    width: 100%;
+    justify-content: center;
+  }
+  /* Center the avatar image inside this container */
+  .imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+  }
+
+  /* Avatar image */
+  img.avatar {
+    width: 40%;
+    border-radius: 50%;
+  }
+
+  /* Add padding to containers */
+  .container {
+    padding: 16px;
+  }
+
+  /* The "Forgot password" text */
+  span.psw {
+    float: right;
+    padding-top: 16px;
+  }
+
+  /* Change styles for span and cancel button on extra small screens */
+  @media screen and (max-width: 300px) {
+    span.psw {
+      display: block;
+      float: none;
+    }
+    .cancelbtn {
+      width: 100%;
+    }
+  }
+</style>
