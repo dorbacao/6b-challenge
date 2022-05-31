@@ -1,3 +1,5 @@
+using SixB_Api.Infraestructure.Aspnetcore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,6 +25,7 @@ app.UseCors(x => x
     .AllowAnyHeader()
     .AllowCredentials());
 
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
 
