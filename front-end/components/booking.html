@@ -1,0 +1,146 @@
+<html>
+  <meta charset="UTF-8" />
+  <body>
+    <h1>Books</h1>
+    <button type="button" id="signoutAnchor">Sign Out</button>
+    <div id="divMessageBox" class="hide"></div>
+    <div id="containerTable"></div>
+  </body>
+</html>
+
+<link rel="stylesheet" href="../styles/box.css" />
+<link rel="stylesheet" href="../styles/table.css" />
+<link rel="stylesheet" href="../styles/button.css" />
+
+<script type="module">
+  import auth from "../services/auth.js";
+  import dom from "../services/dom.js";
+  import api from "../services/api.js";
+  import messageBox from "../services/messageBox.js";
+  import flexibility from "../model/flexibility.js";
+  import vehicleSize from "../model/vehicleSize.js";
+
+  function signout() {
+    auth.signout();
+  }
+
+  async function onAprovedClick(sender) {
+    var result = confirm("Really approve?");
+    if (result) {
+      var resultApprove = await api.putAsync(
+        "api/managment/booking/" + sender.target.tag.id + "/approved"
+      );
+
+      messageBox.showFromResponse("divMessageBox", resultApprove);
+
+      loadTable();
+    }
+  }
+
+  async function onDeleteClick(sender) {
+    var result = confirm("Really Delete?");
+    if (result) {
+      var resultApprove = await api.deleteAsync(
+        "api/managment/booking/" + sender.target.tag.id
+      );
+
+      messageBox.showFromResponse("divMessageBox", resultApprove);
+
+      loadTable();
+    }
+  }
+
+  async function onCancelClick(sender) {
+    var result = confirm("Really cancel?");
+    if (result) {
+      var resultApprove = await api.putAsync(
+        "api/managment/booking/" + sender.target.tag.id + "/cancel"
+      );
+
+      messageBox.showFromResponse("divMessageBox", resultApprove);
+
+      loadTable();
+    }
+  }
+
+  async function onPageLoad() {
+    loadTable();
+  }
+
+  function getTextFromEnum(enums, value) {
+    for (var propertyName in enums) {
+      let currentValue = enums[propertyName];
+      if (currentValue == value)
+        return (
+          propertyName.substring(0, 1).toUpperCase() +
+          propertyName.substring(1, propertyName.length)
+        );
+    }
+  }
+
+  async function loadTable() {
+    var container = dom.get("containerTable");
+    container.innerHTML = "";
+
+    var table = dom.createTable([
+      //"Created On",
+      "Booking Date",
+      "Flexibility",
+      "Vehicle Size",
+      "Contact Number",
+      "Email Address",
+      "Approved",
+      "Approve/Cancel",
+      "Delete",
+    ]);
+
+    var result = await api.getAsync("api/managment/booking");
+
+    var allBookings = JSON.parse(result.target.responseText);
+
+    allBookings.forEach((element) => {
+      var buttonApproveOrCancel = null;
+
+      if (!element.approved) {
+        buttonApproveOrCancel = dom.createButton(
+          "Approve",
+          onAprovedClick,
+          element,
+          "button"
+        );
+      } else {
+        buttonApproveOrCancel = dom.createButton(
+          "Cancel",
+          onCancelClick,
+          element,
+          "cancelbtn"
+        );
+      }
+
+      let buttonDelete = dom.createButton(
+        "Delete",
+        onDeleteClick,
+        element,
+        "cancelbtn"
+      );
+
+      dom.addRow(table, [
+        new Date(element.bookingDate).toLocaleDateString("pt-PT"),
+        getTextFromEnum(flexibility, element.flexibility),
+        getTextFromEnum(vehicleSize, element.vehicleSize),
+        element.contactNumber,
+        element.emailAddress,
+        element.approved,
+        buttonApproveOrCancel,
+        buttonDelete,
+      ]);
+    });
+
+    container.appendChild(table);
+  }
+
+  auth.redirectWhenUnauthenticated();
+  dom.addClick("signoutAnchor", signout);
+
+  onPageLoad();
+</script>

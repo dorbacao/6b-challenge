@@ -34,6 +34,7 @@ public class BookingDataContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new BookingTypeConfiguration());
 
         Seed.Fill(modelBuilder);
 
