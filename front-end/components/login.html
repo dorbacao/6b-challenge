@@ -58,7 +58,7 @@
     if (result.target.status == 200) {
       messageBox.hide("divError");
       auth.save(JSON.parse(result.target.response));
-      window.location = "booking.html";
+      window.location = "home.html";
     } else {
       messageBox.showError("divError", result.target.responseText);
     }
