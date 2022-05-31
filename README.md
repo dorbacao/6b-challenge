@@ -36,6 +36,8 @@ To run the API follow the steps below:
 * CMD: Open Developer Command Prompt for VS
 * CMD: open root repository folder
 * CMD: cd back-end
+* Change a connection string to your preference (in the file appsettings.json)
+* CMD: dotnet ef database update 
 * CMD: dotnet run
 
 
