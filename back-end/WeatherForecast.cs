@@ -1,4 +1,4 @@
-namespace SixB_api
+namespace SixB_Api
 {
     public class WeatherForecast
     {

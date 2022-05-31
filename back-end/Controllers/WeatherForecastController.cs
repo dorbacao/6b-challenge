@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace SixB_api.Controllers
+namespace SixB_Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
